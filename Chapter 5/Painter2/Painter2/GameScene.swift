@@ -14,12 +14,12 @@ class GameScene: SKScene {
     
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         background.zPosition = 0
         cannonBarrel.zPosition = 1
         touchingLabel.zPosition = 1
-        touchingLabel.fontColor = UIColor.blackColor()
+        touchingLabel.fontColor = UIColor.black
         cannonBarrel.position = CGPoint(x:-430, y:-280)
         cannonBarrel.anchorPoint = CGPoint(x:0.233, y:0.5)
         cannonRed.position = cannonBarrel.position
@@ -28,8 +28,8 @@ class GameScene: SKScene {
         cannonRed.zPosition = 2
         cannonGreen.zPosition = 2
         cannonBlue.zPosition = 2
-        cannonGreen.hidden = true
-        cannonBlue.hidden = true
+        cannonGreen.isHidden = true
+        cannonBlue.isHidden = true
         addChild(cannonRed)
         addChild(cannonGreen)
         addChild(cannonBlue)
@@ -38,7 +38,7 @@ class GameScene: SKScene {
         addChild(touchingLabel)
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if nrTouches > 0 {
             // we now know that the player is touching the screen somewhere, so we change
             // the label text
@@ -53,10 +53,10 @@ class GameScene: SKScene {
             else if hasTapped {
                 // the player is has tapped on the screen inside the cannon barrel frame,
                 // so change the color of the cannon
-                let tmp = cannonBlue.hidden
-                cannonBlue.hidden = cannonGreen.hidden
-                cannonGreen.hidden = cannonRed.hidden
-                cannonRed.hidden = tmp
+                let tmp = cannonBlue.isHidden
+                cannonBlue.isHidden = cannonGreen.isHidden
+                cannonGreen.isHidden = cannonRed.isHidden
+                cannonRed.isHidden = tmp
             }
         } else {
             // the player is not touching the screen, so we update the label text accordingly
@@ -66,19 +66,19 @@ class GameScene: SKScene {
     }
         
     // Touch input handling
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-        touchLocation = touch.locationInNode(self)
+        touchLocation = touch.location(in: self)
         nrTouches = nrTouches + touches.count
         hasTapped = true
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-        touchLocation = touch.locationInNode(self)
+        touchLocation = touch.location(in: self)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         nrTouches -= touches.count
     }
 }

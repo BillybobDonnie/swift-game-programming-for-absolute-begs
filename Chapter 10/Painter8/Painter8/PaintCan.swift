@@ -6,7 +6,7 @@ func randomCGFloat() -> CGFloat {
 
 class PaintCan : ThreeColorGameObject {
     var positionOffset = CGFloat(0)
-    var targetColor = UIColor.redColor()
+    var targetColor = UIColor.red
     var minVelocity = CGFloat(40)
     
     init(pOffset: CGFloat, tColor: UIColor) {
@@ -14,21 +14,21 @@ class PaintCan : ThreeColorGameObject {
         targetColor = tColor
         super.init("spr_can_red", "spr_can_green", "spr_can_blue")
         node.zPosition = 1
-        node.hidden = true
+        node.isHidden = true
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
-        if node.hidden {
+    override func updateDelta(_ delta: TimeInterval) {
+        if node.isHidden {
             if randomCGFloat() > 0.01 {
                 return
             }
-            node.hidden = false
+            node.isHidden = false
             node.position = CGPoint(x: positionOffset, y: GameScene.world.size.height/2 + red.size.height/2 + 5)
             velocity = CGPoint(x: 0.0, y: randomCGFloat() * -40 - minVelocity)
             let randomval = arc4random_uniform(3)
-            red.hidden = randomval != 0
-            green.hidden = randomval != 1
-            blue.hidden = randomval != 2
+            red.isHidden = randomval != 0
+            green.isHidden = randomval != 1
+            blue.isHidden = randomval != 2
         }
         
         super.updateDelta(delta)
@@ -44,13 +44,13 @@ class PaintCan : ThreeColorGameObject {
             if color != targetColor {
                 GameScene.world.lives -= 1;
             }
-            node.hidden = true
+            node.isHidden = true
         }
         minVelocity += 0.02
     }
     
     override func reset() {
-        node.hidden = true
+        node.isHidden = true
         minVelocity = CGFloat(40)
     }
 }

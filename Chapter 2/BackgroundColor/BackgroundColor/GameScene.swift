@@ -2,15 +2,15 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         let myLabel = SKLabelNode(fontNamed:"Chalkduster")
         myLabel.text = "Hello, World!"
         myLabel.fontSize = 65
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        myLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         addChild(myLabel)
     }
     
-    override func update(currentTime: NSTimeInterval) {
-        backgroundColor = UIColor.blueColor()
+    override func update(_ currentTime: TimeInterval) {
+        backgroundColor = UIColor.blue
     }
 }

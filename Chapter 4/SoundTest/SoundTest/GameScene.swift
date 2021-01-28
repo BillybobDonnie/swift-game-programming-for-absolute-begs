@@ -5,9 +5,9 @@ class GameScene: SKScene {
     
     var audioPlayer = AVAudioPlayer()
     
-    override func didMoveToView(view: SKView) {
-        let soundURL = NSBundle.mainBundle().URLForResource("snd_music", withExtension: "mp3")
-        audioPlayer = try! AVAudioPlayer(contentsOfURL: soundURL!)
+    override func didMove(to view: SKView) {
+        let soundURL = Bundle.main.url(forResource: "snd_music", withExtension: "mp3")
+        audioPlayer = try! AVAudioPlayer(contentsOf: soundURL!)
         audioPlayer.play()
         audioPlayer.volume = 0.4
     }

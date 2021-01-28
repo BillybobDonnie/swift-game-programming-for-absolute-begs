@@ -6,9 +6,9 @@ class GameWorld : SKNode {
     var background = SKSpriteNode(imageNamed: "spr_background")
     var cannon = Cannon()
     var ball = Ball()
-    var can1 = PaintCan(pOffset: -10, tColor: UIColor.redColor())
-    var can2 = PaintCan(pOffset: 190, tColor: UIColor.greenColor())
-    var can3 = PaintCan(pOffset: 390, tColor: UIColor.blueColor())
+    var can1 = PaintCan(pOffset: -10, tColor: UIColor.red)
+    var can2 = PaintCan(pOffset: 190, tColor: UIColor.green)
+    var can3 = PaintCan(pOffset: 390, tColor: UIColor.blue)
     var lives = 5
     var livesNode = SKNode()
     var gameover = SKSpriteNode(imageNamed: "spr_gameover")
@@ -42,15 +42,15 @@ class GameWorld : SKNode {
         }
         self.addChild(gameover)
         gameover.zPosition = 2
-        gameover.hidden = true
+        gameover.isHidden = true
         
         let scorebar = SKSpriteNode(imageNamed: "spr_scorebar")
         let scorepos = CGPoint(x: -size.width/2 + scorebar.size.width/2 + 10, y: size.height/2 - scorebar.size.height/2 - 10)
         scorebar.position = scorepos
         self.addChild(scorebar)
         scoreLabel.position = scorepos
-        scoreLabel.color = UIColor.whiteColor()
-        scoreLabel.verticalAlignmentMode = .Center
+        scoreLabel.color = UIColor.white
+        scoreLabel.verticalAlignmentMode = .center
         scoreLabel.text = "Score: \(self.score)"
         self.addChild(scoreLabel)
         
@@ -60,7 +60,7 @@ class GameWorld : SKNode {
         backgroundMusic.play()
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
         if (lives > 0) {
             cannon.handleInput(inputHelper)
             ball.handleInput(inputHelper)
@@ -69,8 +69,8 @@ class GameWorld : SKNode {
         }
     }
     
-    func updateDelta(delta: NSTimeInterval) {
-        gameover.hidden = lives > 0
+    func updateDelta(_ delta: TimeInterval) {
+        gameover.isHidden = lives > 0
         if (lives <= 0) {
             return
         }
@@ -80,7 +80,7 @@ class GameWorld : SKNode {
         can3.updateDelta(delta)
         for index in 0..<livesNode.children.count {
             let livesSpr = livesNode.children[index] as SKNode
-            livesSpr.hidden = index >= lives
+            livesSpr.isHidden = index >= lives
         }
         scoreLabel.text = "Score: \(score)"
     }
@@ -95,7 +95,7 @@ class GameWorld : SKNode {
         can3.reset()
     }
     
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -size.width/2 || pos.x > size.width/2 || pos.y < -size.height/2
     }
 }

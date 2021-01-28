@@ -13,7 +13,7 @@ class Ball {
         node.addChild(red)
         node.addChild(green)
         node.addChild(blue)
-        node.hidden = true
+        node.isHidden = true
     }
     
     convenience init(position: CGPoint) {
@@ -23,32 +23,32 @@ class Ball {
     
     var color: UIColor {
         get {
-            if (!red.hidden) {
-                return UIColor.redColor()
-            } else if (!green.hidden) {
-                return UIColor.greenColor()
+            if (!red.isHidden) {
+                return UIColor.red
+            } else if (!green.isHidden) {
+                return UIColor.green
             } else {
-                return UIColor.blueColor()
+                return UIColor.blue
             }
         }
         set(col) {
-            if col != UIColor.redColor() && col != UIColor.greenColor()
-                && col != UIColor.blueColor() {
+            if col != UIColor.red && col != UIColor.green
+                && col != UIColor.blue {
                     return
             }
-            red.hidden = col != UIColor.redColor()
-            green.hidden = col != UIColor.greenColor()
-            blue.hidden = col != UIColor.blueColor()
+            red.isHidden = col != UIColor.red
+            green.isHidden = col != UIColor.green
+            blue.isHidden = col != UIColor.blue
         }
     }
     
-    func handleInput(inputHelper: InputHelper) {
-        let localTouch: CGPoint = GameScene.world.node.convertPoint(inputHelper.touchLocation, toNode: GameScene.world.cannon.red)
-        if inputHelper.isTouching && !GameScene.world.cannon.red.frame.contains(localTouch) && node.hidden {
+    func handleInput(_ inputHelper: InputHelper) {
+        let localTouch: CGPoint = GameScene.world.node.convert(inputHelper.touchLocation, to: GameScene.world.cannon.red)
+        if inputHelper.isTouching && !GameScene.world.cannon.red.frame.contains(localTouch) && node.isHidden {
             readyToShoot = true
         }
-        if (!inputHelper.isTouching && readyToShoot && node.hidden) {
-            node.hidden = false
+        if (!inputHelper.isTouching && readyToShoot && node.isHidden) {
+            node.isHidden = false
             readyToShoot = false
             let velocityMultiplier = CGFloat(1.4)
             velocity.x = (inputHelper.touchLocation.x - GameScene.world.cannon.node.position.x) * velocityMultiplier
@@ -56,8 +56,8 @@ class Ball {
         }
     }
     
-    func updateDelta(delta: NSTimeInterval) {
-        if !node.hidden {
+    func updateDelta(_ delta: TimeInterval) {
+        if !node.isHidden {
             velocity.x *= 0.99
             velocity.y -= 15
             node.position.x += velocity.x * CGFloat(delta)
@@ -68,9 +68,9 @@ class Ball {
             node.position = GameScene.world.cannon.ballPosition
             
             // set the ball color
-            red.hidden = GameScene.world.cannon.red.hidden
-            green.hidden = GameScene.world.cannon.green.hidden
-            blue.hidden = GameScene.world.cannon.blue.hidden
+            red.isHidden = GameScene.world.cannon.red.isHidden
+            green.isHidden = GameScene.world.cannon.green.isHidden
+            blue.isHidden = GameScene.world.cannon.blue.isHidden
         }
         if GameScene.world.isOutsideWorld(node.position) {
             reset()
@@ -78,7 +78,7 @@ class Ball {
     }
     
     func reset() {
-        node.hidden = true
+        node.isHidden = true
         readyToShoot = false
     }
     

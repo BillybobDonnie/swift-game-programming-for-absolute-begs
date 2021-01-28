@@ -6,7 +6,7 @@ class Ball : ThreeColorGameObject {
     init() {
         super.init("spr_ball_red", "spr_ball_green", "spr_ball_blue")
         node.zPosition = 1
-        node.hidden = true
+        node.isHidden = true
     }
     
     convenience init(position: CGPoint) {
@@ -14,13 +14,13 @@ class Ball : ThreeColorGameObject {
         node.position = position
     }
     
-    override func handleInput(inputHelper: InputHelper) {
-        let localTouch: CGPoint = GameScene.world.node.convertPoint(inputHelper.touchLocation, toNode: GameScene.world.cannon.red)
-        if inputHelper.isTouching && !GameScene.world.cannon.red.frame.contains(localTouch) && node.hidden {
+    override func handleInput(_ inputHelper: InputHelper) {
+        let localTouch: CGPoint = GameScene.world.node.convert(inputHelper.touchLocation, to: GameScene.world.cannon.red)
+        if inputHelper.isTouching && !GameScene.world.cannon.red.frame.contains(localTouch) && node.isHidden {
             readyToShoot = true
         }
-        if (!inputHelper.isTouching && readyToShoot && node.hidden) {
-            node.hidden = false
+        if (!inputHelper.isTouching && readyToShoot && node.isHidden) {
+            node.isHidden = false
             readyToShoot = false
             let velocityMultiplier = CGFloat(1.4)
             velocity.x = (inputHelper.touchLocation.x - GameScene.world.cannon.node.position.x) * velocityMultiplier
@@ -28,8 +28,8 @@ class Ball : ThreeColorGameObject {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
-        if !node.hidden {
+    override func updateDelta(_ delta: TimeInterval) {
+        if !node.isHidden {
             velocity.x *= 0.99
             velocity.y -= 15
             super.updateDelta(delta)
@@ -46,7 +46,7 @@ class Ball : ThreeColorGameObject {
     }
     
     override func reset() {
-        node.hidden = true
+        node.isHidden = true
         readyToShoot = false
     }
     

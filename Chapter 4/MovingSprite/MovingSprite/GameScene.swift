@@ -5,14 +5,14 @@ class GameScene: SKScene {
     
     var balloonSprite = SKSpriteNode(imageNamed: "spr_balloon")
     
-    override func didMoveToView(view: SKView) {
-        backgroundColor = UIColor.lightGrayColor()
+    override func didMove(to view: SKView) {
+        backgroundColor = UIColor.lightGray
         balloonSprite.position = CGPoint(x: 200, y: 200)
         addChild(balloonSprite)
     }
     
-    override func update(currentTime: NSTimeInterval) {
-        let time = CGFloat(currentTime % 1)
+    override func update(_ currentTime: TimeInterval) {
+        let time = CGFloat(currentTime.truncatingRemainder(dividingBy: 1))
         balloonSprite.position = CGPoint(x: time * size.width, y: 200)
     }
 

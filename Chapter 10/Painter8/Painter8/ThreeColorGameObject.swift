@@ -18,22 +18,22 @@ class ThreeColorGameObject {
     
     var color: UIColor {
         get {
-            if (!red.hidden) {
-                return UIColor.redColor()
-            } else if (!green.hidden) {
-                return UIColor.greenColor()
+            if (!red.isHidden) {
+                return UIColor.red
+            } else if (!green.isHidden) {
+                return UIColor.green
             } else {
-                return UIColor.blueColor()
+                return UIColor.blue
             }
         }
         set(col) {
-            if col != UIColor.redColor() && col != UIColor.greenColor()
-                && col != UIColor.blueColor() {
+            if col != UIColor.red && col != UIColor.green
+                && col != UIColor.blue {
                     return
             }
-            red.hidden = col != UIColor.redColor()
-            green.hidden = col != UIColor.greenColor()
-            blue.hidden = col != UIColor.blueColor()
+            red.isHidden = col != UIColor.red
+            green.isHidden = col != UIColor.green
+            blue.isHidden = col != UIColor.blue
         }
     }
     
@@ -43,10 +43,10 @@ class ThreeColorGameObject {
         }
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
     }
     
-    func updateDelta(delta: NSTimeInterval) {
+    func updateDelta(_ delta: TimeInterval) {
         node.position.x += velocity.x * CGFloat(delta)
         node.position.y += velocity.y * CGFloat(delta)
     }

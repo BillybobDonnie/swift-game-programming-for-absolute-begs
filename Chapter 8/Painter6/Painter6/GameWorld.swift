@@ -21,20 +21,20 @@ class GameWorld {
         node.addChild(can3.node)
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
         cannon.handleInput(inputHelper)
         ball.handleInput(inputHelper)
     }
     
     
-    func updateDelta(delta: NSTimeInterval) {
+    func updateDelta(_ delta: TimeInterval) {
         ball.updateDelta(delta)
         can1.updateDelta(delta)
         can2.updateDelta(delta)
         can3.updateDelta(delta)
     }
     
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -size.width/2 || pos.x > size.width/2 || pos.y < -size.height/2
     }
 }

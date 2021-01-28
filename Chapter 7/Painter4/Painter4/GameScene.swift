@@ -31,7 +31,7 @@ class GameScene: SKScene {
     var nrTouches = 0
     var hasTapped: Bool = false
     
-    var delta: NSTimeInterval = 1/60
+    var delta: TimeInterval = 1/60
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -43,7 +43,7 @@ class GameScene: SKScene {
     }
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         background.zPosition = 0
@@ -58,10 +58,10 @@ class GameScene: SKScene {
         addChild(gameWorld)
         
         view.frameInterval = 2
-        delta = NSTimeInterval(view.frameInterval) / 60
+        delta = TimeInterval(view.frameInterval) / 60
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         handleInputCannon()
         handleInputBall()
         updateBall()
@@ -75,8 +75,8 @@ class GameScene: SKScene {
         cannon.barrel.anchorPoint = CGPoint(x:0.233, y:0.5)
         cannon.node.position = CGPoint(x:-430, y:-280)
         cannon.node.zPosition = 1
-        cannon.green.hidden = true
-        cannon.blue.hidden = true
+        cannon.green.isHidden = true
+        cannon.blue.isHidden = true
         cannon.node.addChild(cannon.red)
         cannon.node.addChild(cannon.green)
         cannon.node.addChild(cannon.blue)
@@ -87,16 +87,16 @@ class GameScene: SKScene {
         if nrTouches < 0 {
             return
         }
-        let localTouch: CGPoint = gameWorld.convertPoint(touchLocation, toNode: cannon.red)
+        let localTouch: CGPoint = gameWorld.convert(touchLocation, to: cannon.red)
         if !cannon.red.frame.contains(localTouch) {
             let opposite = touchLocation.y - cannon.node.position.y
             let adjacent = touchLocation.x - cannon.node.position.x
             cannon.barrel.zRotation = atan2(opposite, adjacent)
         } else if hasTapped {
-            let tmp = cannon.blue.hidden
-            cannon.blue.hidden = cannon.green.hidden
-            cannon.green.hidden = cannon.red.hidden
-            cannon.red.hidden = tmp
+            let tmp = cannon.blue.isHidden
+            cannon.blue.isHidden = cannon.green.isHidden
+            cannon.green.isHidden = cannon.red.isHidden
+            cannon.red.isHidden = tmp
         }
     }
     
@@ -105,16 +105,16 @@ class GameScene: SKScene {
         ball.node.addChild(ball.red)
         ball.node.addChild(ball.green)
         ball.node.addChild(ball.blue)
-        ball.node.hidden = true
+        ball.node.isHidden = true
     }
     
     func handleInputBall() {
-        let localTouch: CGPoint = gameWorld.convertPoint(touchLocation, toNode: cannon.red)
-        if nrTouches > 0 && !cannon.red.frame.contains(localTouch) && ball.node.hidden {
+        let localTouch: CGPoint = gameWorld.convert(touchLocation, to: cannon.red)
+        if nrTouches > 0 && !cannon.red.frame.contains(localTouch) && ball.node.isHidden {
             ball.readyToShoot = true
         }
-        if (nrTouches <= 0 && ball.readyToShoot && ball.node.hidden) {
-            ball.node.hidden = false
+        if (nrTouches <= 0 && ball.readyToShoot && ball.node.isHidden) {
+            ball.node.isHidden = false
             ball.readyToShoot = false
             let velocityMultiplier = CGFloat(1.4)
             ball.velocity.x = (touchLocation.x - cannon.node.position.x) * velocityMultiplier
@@ -123,7 +123,7 @@ class GameScene: SKScene {
     }
     
     func updateBall() {
-        if !ball.node.hidden {
+        if !ball.node.isHidden {
             ball.velocity.x *= 0.99
             ball.velocity.y -= 15
             ball.node.position.x += ball.velocity.x * CGFloat(delta)
@@ -136,34 +136,34 @@ class GameScene: SKScene {
             ball.node.position = CGPoint(x: cannon.node.position.x + adjacent, y: cannon.node.position.y + opposite)
             
             // set the ball color
-            ball.red.hidden = cannon.red.hidden
-            ball.green.hidden = cannon.green.hidden
-            ball.blue.hidden = cannon.blue.hidden
+            ball.red.isHidden = cannon.red.isHidden
+            ball.green.isHidden = cannon.green.isHidden
+            ball.blue.isHidden = cannon.blue.isHidden
         }
         if isOutsideWorld(ball.node.position) {
-            ball.node.hidden = true
+            ball.node.isHidden = true
             ball.readyToShoot = false
         }
     }
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -gameSize.width/2 || pos.x > gameSize.width/2 || pos.y < -gameSize.height/2
     }
     
     
     // Touch input handling
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-        touchLocation = touch.locationInNode(self)
+        touchLocation = touch.location(in: self)
         nrTouches += touches.count
         hasTapped = true
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-        touchLocation = touch.locationInNode(self)
+        touchLocation = touch.location(in: self)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         nrTouches -= touches.count
     }
 }

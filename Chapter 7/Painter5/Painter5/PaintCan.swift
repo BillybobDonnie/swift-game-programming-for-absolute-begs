@@ -21,21 +21,21 @@ class PaintCan {
         node.addChild(red)
         node.addChild(green)
         node.addChild(blue)
-        node.hidden = true
+        node.isHidden = true
     }
     
-    func updateDelta(delta: NSTimeInterval) {
-        if node.hidden {
+    func updateDelta(_ delta: TimeInterval) {
+        if node.isHidden {
             if randomCGFloat() > 0.01 {
                 return
             }
-            node.hidden = false
+            node.isHidden = false
             node.position = CGPoint(x: positionOffset, y: GameScene.world.size.height/2 + red.size.height/2 + 5)
             velocity = CGPoint(x: 0.0, y: randomCGFloat() * -40 - minVelocity)
             let randomval = arc4random_uniform(3)
-            red.hidden = randomval != 0
-            green.hidden = randomval != 1
-            blue.hidden = randomval != 2
+            red.isHidden = randomval != 0
+            green.isHidden = randomval != 1
+            blue.isHidden = randomval != 2
         }
         
         node.position.x += velocity.x * CGFloat(delta)
@@ -43,7 +43,7 @@ class PaintCan {
         
         let top = CGPoint(x: node.position.x, y: node.position.y + red.size.height/2)
         if GameScene.world.isOutsideWorld(top) {
-            node.hidden = true
+            node.isHidden = true
         }
         minVelocity += 0.02
     }

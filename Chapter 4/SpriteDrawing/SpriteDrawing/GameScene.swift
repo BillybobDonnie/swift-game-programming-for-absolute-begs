@@ -4,8 +4,8 @@ class GameScene: SKScene {
     
     var balloonSprite = SKSpriteNode(imageNamed: "spr_balloon")
     
-    override func didMoveToView(view: SKView) {
-        backgroundColor = UIColor.lightGrayColor()
+    override func didMove(to view: SKView) {
+        backgroundColor = UIColor.lightGray
         balloonSprite.position = CGPoint(x: 200, y: 200)
         addChild(balloonSprite)
     }

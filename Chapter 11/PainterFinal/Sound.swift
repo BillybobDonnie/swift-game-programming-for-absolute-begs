@@ -5,8 +5,8 @@ class Sound {
     var audioPlayer = AVAudioPlayer()
     
     init(_ fileName: String) {
-        let soundURL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "mp3")
-        audioPlayer = try! AVAudioPlayer(contentsOfURL: soundURL!)
+        let soundURL = Bundle.main.url(forResource: fileName, withExtension: "mp3")
+        audioPlayer = try! AVAudioPlayer(contentsOf: soundURL!)
     }
     
     // properties

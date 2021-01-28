@@ -6,7 +6,7 @@ func randomCGFloat() -> CGFloat {
 
 class PaintCan : ThreeColorGameObject {
     var positionOffset = CGFloat(0)
-    var targetColor = UIColor.redColor()
+    var targetColor = UIColor.red
     var minVelocity = CGFloat(40)
     var collectPointsSound = Sound("snd_collect_points")
     
@@ -15,25 +15,25 @@ class PaintCan : ThreeColorGameObject {
         targetColor = tColor
         super.init("spr_can_red", "spr_can_green", "spr_can_blue")
         self.zPosition = 1
-        self.hidden = true
+        self.isHidden = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
-        if self.hidden {
+    override func updateDelta(_ delta: TimeInterval) {
+        if self.isHidden {
             if randomCGFloat() > 0.01 {
                 return
             }
-            self.hidden = false
+            self.isHidden = false
             self.position = CGPoint(x: positionOffset, y: GameScene.world.size.height/2 + red.size.height/2 + 5)
             velocity = CGPoint(x: 0.0, y: randomCGFloat() * -40 - minVelocity)
             let randomval = arc4random_uniform(3)
-            red.hidden = randomval != 0
-            green.hidden = randomval != 1
-            blue.hidden = randomval != 2
+            red.isHidden = randomval != 0
+            green.isHidden = randomval != 1
+            blue.isHidden = randomval != 2
         }
         
         super.updateDelta(delta)
@@ -52,14 +52,14 @@ class PaintCan : ThreeColorGameObject {
                 GameScene.world.score += 10
                 collectPointsSound.play()
             }
-            self.hidden = true
+            self.isHidden = true
         }
         minVelocity += 0.02
         self.zRotation = sin(position.y / 50) * 0.04
     }
     
     override func reset() {
-        self.hidden = true
+        self.isHidden = true
         minVelocity = CGFloat(40)
     }
 }

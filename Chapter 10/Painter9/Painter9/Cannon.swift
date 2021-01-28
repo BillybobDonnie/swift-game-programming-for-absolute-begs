@@ -11,8 +11,8 @@ class Cannon : ThreeColorGameObject {
         barrel.anchorPoint = CGPoint(x:0.233, y:0.5)
         self.position = CGPoint(x:-430, y:-280)
         self.zPosition = 1
-        green.hidden = true
-        blue.hidden = true
+        green.isHidden = true
+        blue.isHidden = true
         self.addChild(barrel)
     }
 
@@ -28,24 +28,24 @@ class Cannon : ThreeColorGameObject {
         }
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         if !inputHelper.isTouching {
             return
         }
-        let localTouch: CGPoint = GameScene.world.convertPoint(inputHelper.touchLocation, toNode: red)
+        let localTouch: CGPoint = GameScene.world.convert(inputHelper.touchLocation, to: red)
         if !red.frame.contains(localTouch) {
             let opposite = inputHelper.touchLocation.y - self.position.y
             let adjacent = inputHelper.touchLocation.x - self.position.x
             barrel.zRotation = atan2(opposite, adjacent)
         } else if inputHelper.hasTapped {
-            let tmp = blue.hidden
-            blue.hidden = green.hidden
-            green.hidden = red.hidden
-            red.hidden = tmp
+            let tmp = blue.isHidden
+            blue.isHidden = green.isHidden
+            green.isHidden = red.isHidden
+            red.isHidden = tmp
         }
     }
     
     override func reset() {
-        color = UIColor.redColor()
+        color = UIColor.red
     }
 }

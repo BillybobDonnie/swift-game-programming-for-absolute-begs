@@ -13,7 +13,7 @@ class Ball {
         node.addChild(red)
         node.addChild(green)
         node.addChild(blue)
-        node.hidden = true
+        node.isHidden = true
     }
     
     convenience init(position: CGPoint) {
@@ -21,21 +21,21 @@ class Ball {
         node.position = position
     }
     
-    func handleInput(inputHelper: InputHelper) {
-        let localTouch: CGPoint = GameScene.world.node.convertPoint(inputHelper.touchLocation, toNode: GameScene.world.cannon.red)
-        if inputHelper.isTouching() && !GameScene.world.cannon.red.frame.contains(localTouch) && node.hidden {
+    func handleInput(_ inputHelper: InputHelper) {
+        let localTouch: CGPoint = GameScene.world.node.convert(inputHelper.touchLocation, to: GameScene.world.cannon.red)
+        if inputHelper.isTouching() && !GameScene.world.cannon.red.frame.contains(localTouch) && node.isHidden {
             readyToShoot = true
         }
-        if (!inputHelper.isTouching() && readyToShoot && node.hidden) {
-            node.hidden = false
+        if (!inputHelper.isTouching() && readyToShoot && node.isHidden) {
+            node.isHidden = false
             readyToShoot = false
             velocity.x = (inputHelper.touchLocation.x - GameScene.world.cannon.node.position.x) * 1.4
             velocity.y = (inputHelper.touchLocation.y - GameScene.world.cannon.node.position.y) * 1.4
         }
     }
     
-    func updateDelta(delta: NSTimeInterval) {
-        if !node.hidden {
+    func updateDelta(_ delta: TimeInterval) {
+        if !node.isHidden {
             velocity.x *= 0.99
             velocity.y -= 15
             node.position.x += velocity.x * CGFloat(delta)
@@ -50,12 +50,12 @@ class Ball {
             node.position = CGPoint(x: cannonNode.position.x + adjacent, y: cannonNode.position.y + opposite)
             
             // set the ball color
-            red.hidden = GameScene.world.cannon.red.hidden
-            green.hidden = GameScene.world.cannon.green.hidden
-            blue.hidden = GameScene.world.cannon.blue.hidden
+            red.isHidden = GameScene.world.cannon.red.isHidden
+            green.isHidden = GameScene.world.cannon.green.isHidden
+            blue.isHidden = GameScene.world.cannon.blue.isHidden
         }
         if GameScene.world.isOutsideWorld(node.position) {
-            node.hidden = true
+            node.isHidden = true
             readyToShoot = false
         }
     }
