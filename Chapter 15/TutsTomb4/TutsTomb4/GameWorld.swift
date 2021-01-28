@@ -1,4 +1,24 @@
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 func randomDouble() -> Double {
     return Double(arc4random()) / Double(UInt32.max)
@@ -37,13 +57,13 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         self.addChild(treasures)
         
         // create the actions
-        let dropTreasureAction = SKAction.runBlock({
+        let dropTreasureAction = SKAction.run({
             self.treasures.addChild(Treasure(range: 5 + UInt32(self.counter)/10))
             self.counter += 1
         })
         
-        totalAction = SKAction.repeatActionForever(
-            SKAction.sequence([dropTreasureAction, SKAction.waitForDuration(2)]))
+        totalAction = SKAction.repeatForever(
+            SKAction.sequence([dropTreasureAction, SKAction.wait(forDuration: 2)]))
         
         // titlescreen
         titleScreen.zPosition = Layer.Overlay2
@@ -51,35 +71,35 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         
         self.addChild(gameover)
         gameover.zPosition = Layer.Overlay2
-        gameover.hidden = true
+        gameover.isHidden = true
         
         // add the surrounding walls
         let floor = SKNode()
         floor.position.y = -400
         var square = CGSize(width: GameScene.world.size.width, height: 200)
-        floor.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        floor.physicsBody?.dynamic = false
+        floor.physicsBody = SKPhysicsBody(rectangleOf: square)
+        floor.physicsBody?.isDynamic = false
         addChild(floor)
         
         let ceiling = SKNode()
         ceiling.position.y = 800
         square = CGSize(width: GameScene.world.size.width, height: 200)
-        ceiling.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        ceiling.physicsBody?.dynamic = false
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: square)
+        ceiling.physicsBody?.isDynamic = false
         addChild(ceiling)
         
         let leftSideWall = SKNode()
         leftSideWall.position.x = -340
         square = CGSize(width: 100, height: GameScene.world.size.height)
-        leftSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        leftSideWall.physicsBody?.dynamic = false
+        leftSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        leftSideWall.physicsBody?.isDynamic = false
         addChild(leftSideWall)
         
         let rightSideWall = SKNode()
         rightSideWall.position.x = 340
         square = CGSize(width: 100, height: size.height)
-        rightSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        rightSideWall.physicsBody?.dynamic = false
+        rightSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        rightSideWall.physicsBody?.isDynamic = false
         addChild(rightSideWall)
         
         // help
@@ -91,37 +111,37 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         self.addChild(helpbutton)
         self.addChild(helpframe)
         helpframe.zPosition = Layer.Overlay2
-        helpframe.hidden = true
+        helpframe.isHidden = true
     }
     
-    override func handleInput(inputHelper: InputHelper) {
-        if !titleScreen.hidden {
+    override func handleInput(_ inputHelper: InputHelper) {
+        if !titleScreen.isHidden {
             if inputHelper.hasTapped {
-                titleScreen.hidden = true
-                self.runAction(totalAction)
+                titleScreen.isHidden = true
+                self.run(totalAction)
             }
-        } else if !gameover.hidden {
+        } else if !gameover.isHidden {
             if inputHelper.hasTapped {
-                gameover.hidden = true
+                gameover.isHidden = true
                 self.reset()
-                self.runAction(totalAction)
+                self.run(totalAction)
             }
-        } else if !helpframe.hidden {
+        } else if !helpframe.isHidden {
             if inputHelper.hasTapped {
-                helpframe.hidden = true
-                self.runAction(totalAction)
+                helpframe.isHidden = true
+                self.run(totalAction)
             }
         } else {
             super.handleInput(inputHelper)
             if helpbutton.tapped  {
-                helpframe.hidden = false
+                helpframe.isHidden = false
                 self.removeAllActions()
             }
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
-        if titleScreen.hidden && helpframe.hidden && gameover.hidden {
+    override func updateDelta(_ delta: TimeInterval) {
+        if titleScreen.isHidden && helpframe.isHidden && gameover.isHidden {
             super.updateDelta(delta)
         }
     }
@@ -133,7 +153,7 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
     }
     
     // physics handling
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as? Treasure
         let secondBody = contact.bodyB.node as? Treasure
         
@@ -145,7 +165,7 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         }
         
         if firstBody?.position.y > 400 || secondBody?.position.y > 400 {
-            gameover.hidden = false
+            gameover.isHidden = false
             self.removeAllActions()
         }
         if firstBody?.type == TreasureType.Rock && secondBody?.type == TreasureType.Rock {
@@ -159,7 +179,7 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         }
     }
     
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -size.width/2 || pos.x > size.width/2 || pos.y < -size.height/2
     }
     

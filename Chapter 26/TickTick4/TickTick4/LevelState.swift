@@ -21,7 +21,7 @@ class LevelState : SKNode {
         self.addChild(quitButton)
         
         let _ = fileReader.nextLine() // for now we do not use the help
-        let sizeArr = fileReader.nextLine().componentsSeparatedByString(" ")
+        let sizeArr = fileReader.nextLine().components(separatedBy: " ")
         let width = Int(sizeArr[0])!, height = Int(sizeArr[1])!
         let _ = Int(fileReader.nextLine())! // for now, we do not use the time for each level
         
@@ -78,20 +78,20 @@ class LevelState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadTile(c: Character, x: Int, y: Int) -> SKNode {
+    func loadTile(_ c: Character, x: Int, y: Int) -> SKNode {
         switch c {
             case "-":
-                return loadBasicTile("spr_platform", tileType: TileType.Platform)
+                return loadBasicTile("spr_platform", tileType: TileType.platform)
             case "+":
-                return loadBasicTile("spr_platform_hot", tileType: TileType.Platform, hot: true)
+                return loadBasicTile("spr_platform_hot", tileType: TileType.platform, hot: true)
             case "@":
-                return loadBasicTile("spr_platform_ice", tileType: TileType.Platform, ice: true)
+                return loadBasicTile("spr_platform_ice", tileType: TileType.platform, ice: true)
             case "#":
-                return loadBasicTile("spr_wall", tileType: TileType.Wall)
+                return loadBasicTile("spr_wall", tileType: TileType.wall)
             case "^":
-                return loadBasicTile("spr_wall_hot", tileType: TileType.Wall, hot: true)
+                return loadBasicTile("spr_wall_hot", tileType: TileType.wall, hot: true)
             case "*":
-                return loadBasicTile("spr_wall_ice", tileType: TileType.Wall, ice: true)
+                return loadBasicTile("spr_wall_ice", tileType: TileType.wall, ice: true)
             case "W":
                 return loadWaterTile(x, y: y)
             case "X":
@@ -113,7 +113,7 @@ class LevelState : SKNode {
         }
     }
 
-    func loadBasicTile(imageNamed : String, tileType: TileType, hot: Bool = false, ice: Bool = false) -> SKNode {
+    func loadBasicTile(_ imageNamed : String, tileType: TileType, hot: Bool = false, ice: Bool = false) -> SKNode {
         let t = Tile(imageNamed: imageNamed, type: tileType)
         t.hot = hot
         t.ice = ice
@@ -121,7 +121,7 @@ class LevelState : SKNode {
         return t
     }
     
-    func loadWaterTile(x: Int, y: Int) -> SKNode {
+    func loadWaterTile(_ x: Int, y: Int) -> SKNode {
         let w = WaterDrop()
         w.position = tileField.layout.toPosition(x, row: y)
         w.position.y += 10
@@ -131,7 +131,7 @@ class LevelState : SKNode {
         return Tile()
     }
 
-    func loadStartTile(x: Int, y: Int) -> SKNode {
+    func loadStartTile(_ x: Int, y: Int) -> SKNode {
         var startPosition = tileField.layout.toPosition(x, row: y)
         startPosition.y -= CGFloat(tileField.layout.cellHeight / 2)
         let player = Player(startPos: startPosition)
@@ -141,7 +141,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadEndTile(x: Int, y: Int) -> SKNode {
+    func loadEndTile(_ x: Int, y: Int) -> SKNode {
         let exit = SKSpriteNode(imageNamed: "spr_goal")
         exit.name = "exit"
         exit.anchorPoint = CGPoint(x: 0.5, y: 0)
@@ -152,7 +152,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadRocketTile(x: Int, y: Int, moveToLeft: Bool) -> SKNode {
+    func loadRocketTile(_ x: Int, y: Int, moveToLeft: Bool) -> SKNode {
         var startPosition = tileField.layout.toPosition(x, row: y)
         startPosition.y += 10
         let enemy = Rocket(moveToLeft: moveToLeft, startPos: startPosition)
@@ -161,7 +161,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadTurtleTile(x: Int, y: Int) -> SKNode {
+    func loadTurtleTile(_ x: Int, y: Int) -> SKNode {
         let turtle = Turtle()
         turtle.position = tileField.layout.toPosition(x, row: y)
         turtle.position.y += 20
@@ -170,7 +170,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadSparkyTile(x: Int, y: Int) -> SKNode {
+    func loadSparkyTile(_ x: Int, y: Int) -> SKNode {
         var pos = tileField.layout.toPosition(x, row: y)
         pos.y += 100
         let sparky = Sparky(position: pos)
@@ -179,7 +179,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadFlameTile(c: Character, x: Int, y: Int) -> SKNode {
+    func loadFlameTile(_ c: Character, x: Int, y: Int) -> SKNode {
         var startPosition = tileField.layout.toPosition(x, row: y)
         startPosition.y += 10
         var flame: AnimatedNode
@@ -197,7 +197,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if quitButton.tapped {
             self.reset()
@@ -205,11 +205,11 @@ class LevelState : SKNode {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         
         // find the player
-        let player = childNodeWithName("//player") as! Player
+        let player = childNode(withName: "//player") as! Player
         
         // let the camera follow the player
         let minx = CGFloat(-tileField.layout.width/2) + GameScreen.instance.size.width/2

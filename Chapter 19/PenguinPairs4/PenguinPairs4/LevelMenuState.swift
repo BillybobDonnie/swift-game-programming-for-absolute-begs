@@ -25,7 +25,7 @@ class LevelMenuState : SKNode {
         
         /* The original C-style for statement is deprecated. You can achieve the same thing
          by using a range and reversing it, as illustrated below */
-        for i in (0..<nrRows).reverse() {
+        for i in (0..<nrRows).reversed() {
             for j in 0..<nrCols {
                 if i*nrCols + j + 1 <= nrLevels {
                     let level = LevelButton(levelIndex: i*nrCols + j + 1)
@@ -50,7 +50,7 @@ class LevelMenuState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if backButton.tapped {
             GameStateManager.instance.switchTo("title")

@@ -31,7 +31,7 @@ class PairList : SKNode {
         }
     }
     
-    func addPair(color : String) {
+    func addPair(_ color : String) {
         for i in 0..<colors.count {
             if colors[i] == "e" {
                 let sprite = children[i] as! SKSpriteNode

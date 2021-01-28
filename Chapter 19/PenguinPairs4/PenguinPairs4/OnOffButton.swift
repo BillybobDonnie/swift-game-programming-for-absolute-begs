@@ -6,7 +6,7 @@ class OnOffButton : SKSpriteNode {
     var offTexture = SKTexture(imageNamed: "spr_button_off")
     
     init() {
-        super.init(texture: onTexture, color: UIColor.whiteColor(), size: onTexture.size())
+        super.init(texture: onTexture, color: UIColor.white, size: onTexture.size())
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -26,8 +26,8 @@ class OnOffButton : SKSpriteNode {
         }
     }
     
-    override func handleInput(inputHelper: InputHelper) {
-        if self.hidden {
+    override func handleInput(_ inputHelper: InputHelper) {
+        if self.isHidden {
             return
         }
         if inputHelper.containsTap(self.box) {

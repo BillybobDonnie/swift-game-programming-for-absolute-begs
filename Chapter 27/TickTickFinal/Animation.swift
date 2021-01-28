@@ -4,7 +4,7 @@ class Animation : SKSpriteNode {
     
     var action = SKAction()
     
-    init(atlasNamed: String, looping: Bool, frameTime: NSTimeInterval) {
+    init(atlasNamed: String, looping: Bool, frameTime: TimeInterval) {
         let atlas = SKTextureAtlas(named: atlasNamed)
         let numImages = atlas.textureNames.count
         var frames: [SKTexture] = []
@@ -12,11 +12,11 @@ class Animation : SKSpriteNode {
             let textureName = "\(atlasNamed)_\(i)"
             frames.append(atlas.textureNamed(textureName))
         }
-        super.init(texture: frames[0], color: UIColor.whiteColor(), size: frames[0].size())
+        super.init(texture: frames[0], color: UIColor.white, size: frames[0].size())
         
-        let animateAction = SKAction.animateWithTextures(frames, timePerFrame: frameTime)
+        let animateAction = SKAction.animate(with: frames, timePerFrame: frameTime)
         if looping {
-            action = SKAction.repeatActionForever(animateAction)
+            action = SKAction.repeatForever(animateAction)
         } else {
             action = animateAction
         }

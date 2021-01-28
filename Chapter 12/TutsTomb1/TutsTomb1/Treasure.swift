@@ -23,7 +23,7 @@ class Treasure: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
         if inputHelper.containsTap(self.box) {
             touchid = inputHelper.getIDInRect(self.box)
         }

@@ -23,7 +23,7 @@ class Turtle : AnimatedNode {
         self.waitTime = 5
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         if sneezing {
             self.playAnimation("sneeze")
@@ -40,7 +40,7 @@ class Turtle : AnimatedNode {
     }
     
     func checkPlayerCollision() {
-        let player = childNodeWithName("//player") as! Player
+        let player = childNode(withName: "//player") as! Player
         if !player.box.intersects(self.box) {
             return
         }

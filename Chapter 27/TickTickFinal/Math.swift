@@ -4,7 +4,7 @@ func + (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
 
-func += (inout left: CGPoint, right: CGPoint) {
+func += (left: inout CGPoint, right: CGPoint) {
     left = left + right
 }
 
@@ -12,7 +12,7 @@ func - (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x - right.x, y: left.y - right.y)
 }
 
-func -= (inout left: CGPoint, right: CGPoint) {
+func -= (left: inout CGPoint, right: CGPoint) {
     left = left - right
 }
 
@@ -20,11 +20,11 @@ func * (left: CGPoint, right: CGPoint) -> CGPoint {
     return CGPoint(x: left.x * right.x, y: left.y * right.y)
 }
 
-func *= (inout left: CGPoint, right: CGPoint) {
+func *= (left: inout CGPoint, right: CGPoint) {
     left = left * right
 }
 
-func *= (inout left: CGPoint, right: CGFloat) {
+func *= (left: inout CGPoint, right: CGFloat) {
     left = left * right
 }
 
@@ -47,7 +47,7 @@ func randomCGFloat() -> CGFloat {
     return CGFloat(arc4random()) /  CGFloat(UInt32.max)
 }
 
-func clamp(number:CGFloat, min:CGFloat, max:CGFloat) -> CGFloat
+func clamp(_ number:CGFloat, min:CGFloat, max:CGFloat) -> CGFloat
 {
     if number < min {
         return min
@@ -59,7 +59,7 @@ func clamp(number:CGFloat, min:CGFloat, max:CGFloat) -> CGFloat
 }
 
 extension CGPoint {
-    static func normalize(p : CGPoint) -> CGPoint {
+    static func normalize(_ p : CGPoint) -> CGPoint {
         let len = p.length
         return CGPoint(x: p.x / len, y: p.y / len)
     }
@@ -72,7 +72,7 @@ extension CGPoint {
 }
 
 extension CGRect {
-    func calculateIntersectionDepth(rect: CGRect) -> CGPoint {
+    func calculateIntersectionDepth(_ rect: CGRect) -> CGPoint {
         let minDistance = CGPoint(x: (self.size.width + rect.size.width)/2, y: (self.size.height + rect.size.height)/2)
         let distance = CGPoint(x: self.midX - rect.midX, y: self.midY - rect.midY)
         var depth = CGPoint.zero

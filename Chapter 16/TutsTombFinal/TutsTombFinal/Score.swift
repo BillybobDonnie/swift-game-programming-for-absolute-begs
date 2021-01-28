@@ -5,7 +5,7 @@ class Score: GameObjectNode {
     // properties
     var sprite = SKSpriteNode(imageNamed: "spr_scorebar")
     var label = SKLabelNode(fontNamed: "CheapPotatoes")
-    private var scoreValue : Int = 0
+    fileprivate var scoreValue : Int = 0
     
     var score : Int {
         get {
@@ -25,10 +25,10 @@ class Score: GameObjectNode {
         
         label.position = CGPoint(x: 100, y: 0)
         label.zPosition = Layer.Overlay1
-        label.fontColor = UIColor.blackColor()
+        label.fontColor = UIColor.black
         label.fontSize = 20
-        label.verticalAlignmentMode = .Center
-        label.horizontalAlignmentMode = .Right
+        label.verticalAlignmentMode = .center
+        label.horizontalAlignmentMode = .right
         label.text = "0"
         self.addChild(label)
     }

@@ -1,23 +1,23 @@
 import SpriteKit
 
 enum TileType {
-    case Wall
-    case Background
-    case Normal
+    case wall
+    case background
+    case normal
 }
 
 class Tile : SKSpriteNode {
     
-    private var tileType: TileType = .Background
+    fileprivate var tileType: TileType = .background
     
     convenience init() {
-        self.init(imageNamed: "spr_wall", type: .Background)
-        self.hidden = true
+        self.init(imageNamed: "spr_wall", type: .background)
+        self.isHidden = true
     }
     
     init(imageNamed: String, type: TileType) {
         let texture = SKTexture(imageNamed: imageNamed)
-        super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
+        super.init(texture: texture, color: UIColor.white, size: texture.size())
         self.type = type
     }
     
@@ -31,7 +31,7 @@ class Tile : SKSpriteNode {
         }
         set {
             tileType = newValue
-            self.hidden = tileType == .Background
+            self.isHidden = tileType == .background
         }
     }
 }

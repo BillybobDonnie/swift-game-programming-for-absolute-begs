@@ -19,7 +19,7 @@ class Treasure: GameObjectNode {
         super.init(coder: aDecoder)
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if inputHelper.containsTap(self.box) {
             touchid = inputHelper.getIDInRect(self.box)

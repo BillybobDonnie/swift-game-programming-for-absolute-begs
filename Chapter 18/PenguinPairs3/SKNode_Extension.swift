@@ -5,7 +5,7 @@ extension SKNode {
         get {
             var boundingBox = self.calculateAccumulatedFrame()
             if parent != nil {
-                boundingBox.origin = scene!.convertPoint(boundingBox.origin, fromNode: parent!)
+                boundingBox.origin = scene!.convert(boundingBox.origin, from: parent!)
             }
             return boundingBox
         }
@@ -14,20 +14,20 @@ extension SKNode {
     var worldPosition: CGPoint {
         get {
             if parent != nil {
-                return parent!.convertPoint(position, toNode: scene!)
+                return parent!.convert(position, to: scene!)
             } else {
                 return position
             }
         }
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
         for obj in children {
             obj.handleInput(inputHelper)
         }
     }
     
-    func updateDelta(delta: NSTimeInterval) {
+    func updateDelta(_ delta: TimeInterval) {
         for obj in children {
             obj.updateDelta(delta)
         }

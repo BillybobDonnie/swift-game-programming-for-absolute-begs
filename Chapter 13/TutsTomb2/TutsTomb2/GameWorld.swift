@@ -23,34 +23,34 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         let floor = SKNode()
         floor.position.y = -400
         var square = CGSize(width: GameScene.world.size.width, height: 200)
-        floor.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        floor.physicsBody?.dynamic = false
+        floor.physicsBody = SKPhysicsBody(rectangleOf: square)
+        floor.physicsBody?.isDynamic = false
         addChild(floor)
         
         let ceiling = SKNode()
         ceiling.position.y = 800
         square = CGSize(width: GameScene.world.size.width, height: 200)
-        ceiling.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        ceiling.physicsBody?.dynamic = false
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: square)
+        ceiling.physicsBody?.isDynamic = false
         addChild(ceiling)
         
         let leftSideWall = SKNode()
         leftSideWall.position.x = -340
         square = CGSize(width: 100, height: GameScene.world.size.height)
-        leftSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        leftSideWall.physicsBody?.dynamic = false
+        leftSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        leftSideWall.physicsBody?.isDynamic = false
         addChild(leftSideWall)
         
         let rightSideWall = SKNode()
         rightSideWall.position.x = 340
         square = CGSize(width: 100, height: size.height)
-        rightSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        rightSideWall.physicsBody?.dynamic = false
+        rightSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        rightSideWall.physicsBody?.isDynamic = false
         addChild(rightSideWall)
     }
     
     // physics handling
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         //let firstBody = contact.bodyA.node as? Treasure
         //let secondBody = contact.bodyB.node as? Treasure
         print("Contact at position \(contact.contactPoint)")

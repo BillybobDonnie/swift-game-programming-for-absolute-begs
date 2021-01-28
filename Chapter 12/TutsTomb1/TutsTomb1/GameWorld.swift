@@ -21,12 +21,12 @@ class GameWorld : SKNode {
         self.addChild(treasure2)
     }
     
-    func handleInput(inputHelper: InputHelper) {
+    func handleInput(_ inputHelper: InputHelper) {
         treasure1.handleInput(inputHelper)
         treasure2.handleInput(inputHelper)
     }
     
-    func updateDelta(delta: NSTimeInterval) {
+    func updateDelta(_ delta: TimeInterval) {
         
     }
     
@@ -34,7 +34,7 @@ class GameWorld : SKNode {
         
     }
     
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -size.width/2 || pos.x > size.width/2 || pos.y < -size.height/2
     }
 }

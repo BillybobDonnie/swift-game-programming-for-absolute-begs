@@ -30,7 +30,7 @@ class LevelState : SKNode {
         retryButton.position.x = quitButton.position.x - quitButton.size.width - 10
         retryButton.position.y = quitButton.position.y
         self.addChild(retryButton)
-        retryButton.hidden = true
+        retryButton.isHidden = true
         
         hintButton.zPosition = Layer.Overlay
         hintButton.position = retryButton.position
@@ -40,9 +40,9 @@ class LevelState : SKNode {
         _ = fileReader.nextLine() // for now, we do not use the title
         let _ = fileReader.nextLine() // for now, we do not use help
         let _ = Int(fileReader.nextLine())! // for now, we do not use the nr of pairs
-        let sizeArr = fileReader.nextLine().componentsSeparatedByString(" ")
+        let sizeArr = fileReader.nextLine().components(separatedBy: " ")
         let width = Int(sizeArr[0])!, height = Int(sizeArr[1])!
-        let _ = fileReader.nextLine().componentsSeparatedByString(" ") // for now, we do not use the hint
+        let _ = fileReader.nextLine().components(separatedBy: " ") // for now, we do not use the hint
         
         let tileDimension = 75
         let tileField = TileField(rows: height, columns: width, cellWidth: tileDimension, cellHeight: tileDimension)
@@ -65,7 +65,7 @@ class LevelState : SKNode {
                 switch c {
                 case ".":
                     let tileSprite = "spr_field_\((i + j) % 2)"
-                    let tile = Tile(imageNamed: tileSprite, type: .Normal)
+                    let tile = Tile(imageNamed: tileSprite, type: .normal)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                 case " ":
@@ -74,7 +74,7 @@ class LevelState : SKNode {
                     tileField.layout.add(tile)
                 case "r", "b", "g", "o", "p", "y", "m", "x", "s", "@", "R", "B", "G", "O", "P", "Y", "M", "X":
                     let tileSprite = "spr_field_\((i + j) % 2)"
-                    let tile = Tile(imageNamed: tileSprite, type: .Normal)
+                    let tile = Tile(imageNamed: tileSprite, type: .normal)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                     let p = Animal(type: String(c))
@@ -83,7 +83,7 @@ class LevelState : SKNode {
                     p.zPosition = Layer.Scene1
                     animals.addChild(p)
                 default:
-                    let tile = Tile(imageNamed: "spr_wall", type: .Wall)
+                    let tile = Tile(imageNamed: "spr_wall", type: .wall)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                 }
@@ -96,22 +96,22 @@ class LevelState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if quitButton.tapped {
             GameStateManager.instance.switchTo("level")
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
-        self.hintButton.hidden = !DefaultsManager.instance.hints
-        self.retryButton.hidden = DefaultsManager.instance.hints
+        self.hintButton.isHidden = !DefaultsManager.instance.hints
+        self.retryButton.isHidden = DefaultsManager.instance.hints
     }
     
     override func reset() {
         super.reset()
-        self.hintButton.hidden = !DefaultsManager.instance.hints
-        self.retryButton.hidden = DefaultsManager.instance.hints
+        self.hintButton.isHidden = !DefaultsManager.instance.hints
+        self.retryButton.isHidden = DefaultsManager.instance.hints
     }
 }

@@ -2,7 +2,7 @@ import SpriteKit
 
 class LevelButton : Button {
     
-    private var levelIndex = 0
+    fileprivate var levelIndex = 0
     var locked = SKTexture(imageNamed: "spr_level_locked")
     var unsolved = SKTexture(imageNamed: "spr_level_unsolved")
     var solved = SKTexture(imageNamed: "spr_level_solved")
@@ -16,7 +16,7 @@ class LevelButton : Button {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if self.texture == locked {
             return
@@ -27,7 +27,7 @@ class LevelButton : Button {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         let status = "unsolved" //DefaultsManager.instance.getLevelStatus(self.levelIndex)
         if status == "locked" {

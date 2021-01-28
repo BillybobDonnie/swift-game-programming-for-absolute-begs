@@ -21,8 +21,8 @@ class OptionsMenuState : SKNode {
         self.addChild(backButton)
         
         let onOffLabel = SKLabelNode(fontNamed: "Helvetica")
-        onOffLabel.horizontalAlignmentMode = .Right
-        onOffLabel.verticalAlignmentMode = .Center
+        onOffLabel.horizontalAlignmentMode = .right
+        onOffLabel.verticalAlignmentMode = .center
         onOffLabel.position = CGPoint(x: -50, y: 50)
         onOffLabel.fontColor = UIColor(red: 0, green: 0, blue: 0.4, alpha: 1)
         onOffLabel.fontSize = 60
@@ -34,8 +34,8 @@ class OptionsMenuState : SKNode {
         onOffButton.on = DefaultsManager.instance.hints
         
         let musicLabel = SKLabelNode(fontNamed: "Helvetica")
-        musicLabel.horizontalAlignmentMode = .Right
-        musicLabel.verticalAlignmentMode = .Center
+        musicLabel.horizontalAlignmentMode = .right
+        musicLabel.verticalAlignmentMode = .center
         musicLabel.position = CGPoint(x: -50, y: -100)
         musicLabel.fontColor = UIColor(red: 0, green: 0, blue: 0.4, alpha: 1)
         musicLabel.fontSize = 60
@@ -56,14 +56,14 @@ class OptionsMenuState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if backButton.tapped {
             GameStateManager.instance.switchTo("title")
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         DefaultsManager.instance.hints = onOffButton.on
         DefaultsManager.instance.musicVolume = Float(musicSlider.value)

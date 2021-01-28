@@ -15,10 +15,10 @@ class Player : AnimatedNode {
     }
 
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         // get the buttons
-        let walkLeftButton = childNodeWithName("//button_walkleft") as! Button
-        let walkRightButton = childNodeWithName("//button_walkright") as! Button
+        let walkLeftButton = childNode(withName: "//button_walkleft") as! Button
+        let walkRightButton = childNode(withName: "//button_walkright") as! Button
         
         let walkingSpeed = CGFloat(300)
         if walkLeftButton.down {
@@ -35,7 +35,7 @@ class Player : AnimatedNode {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         position += velocity * CGFloat(delta)
     

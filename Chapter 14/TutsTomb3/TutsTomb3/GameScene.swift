@@ -2,7 +2,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
-    var delta: NSTimeInterval = 1/60
+    var delta: TimeInterval = 1/60
     
     var inputHelper = InputHelper()
     var touchmap: [UITouch:Int] = [UITouch:Int]()
@@ -19,35 +19,35 @@ class GameScene: SKScene {
         super.init(coder: aDecoder)
     }
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(GameScene.world)
         physicsWorld.contactDelegate = GameScene.world
         view.frameInterval = 2
-        delta = NSTimeInterval(view.frameInterval) / 60
+        delta = TimeInterval(view.frameInterval) / 60
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         GameScene.world.handleInput(inputHelper)
         GameScene.world.updateDelta(delta)
         inputHelper.reset()
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             touchmap[touch] = inputHelper.touchBegan(location)
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchid = touchmap[touch]!
-            inputHelper.touchMoved(touchid, loc: touch.locationInNode(self))
+            inputHelper.touchMoved(touchid, loc: touch.location(in: self))
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchid = touchmap[touch]!
             touchmap[touch] = nil

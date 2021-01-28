@@ -21,7 +21,7 @@ class HelpState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if backButton.tapped {
             GameStateManager.instance.switchTo("title")

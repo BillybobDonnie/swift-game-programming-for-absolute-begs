@@ -17,7 +17,7 @@ class Button: GameObjectNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         tapped = inputHelper.containsTap(self.box)
     }

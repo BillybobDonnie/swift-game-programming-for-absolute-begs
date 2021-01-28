@@ -14,7 +14,7 @@ class LevelState : SKNode {
         self.addChild(world)
         
         let _ = fileReader.nextLine() // for now, we do not use help
-        let sizeArr = fileReader.nextLine().componentsSeparatedByString(" ")
+        let sizeArr = fileReader.nextLine().components(separatedBy: " ")
         let width = Int(sizeArr[0])!, height = Int(sizeArr[1])!
         let _ = Int(fileReader.nextLine())! // for now, we do not use the time for each level
         
@@ -75,20 +75,20 @@ class LevelState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func loadTile(c: Character, x: Int, y: Int) -> SKNode {
+    func loadTile(_ c: Character, x: Int, y: Int) -> SKNode {
         switch c {
             case "-":
-                return loadBasicTile("spr_platform", tileType: TileType.Platform)
+                return loadBasicTile("spr_platform", tileType: TileType.platform)
             case "+":
-                return loadBasicTile("spr_platform_hot", tileType: TileType.Platform, hot: true)
+                return loadBasicTile("spr_platform_hot", tileType: TileType.platform, hot: true)
             case "@":
-                return loadBasicTile("spr_platform_ice", tileType: TileType.Platform, ice: true)
+                return loadBasicTile("spr_platform_ice", tileType: TileType.platform, ice: true)
             case "#":
-                return loadBasicTile("spr_wall", tileType: TileType.Wall)
+                return loadBasicTile("spr_wall", tileType: TileType.wall)
             case "^":
-                return loadBasicTile("spr_wall_hot", tileType: TileType.Wall, hot: true)
+                return loadBasicTile("spr_wall_hot", tileType: TileType.wall, hot: true)
             case "*":
-                return loadBasicTile("spr_wall_ice", tileType: TileType.Wall, ice: true)
+                return loadBasicTile("spr_wall_ice", tileType: TileType.wall, ice: true)
             case "W":
                 return loadWaterTile(x, y: y)
             case "X":
@@ -100,7 +100,7 @@ class LevelState : SKNode {
         }
     }
 
-    func loadBasicTile(imageNamed : String, tileType: TileType, hot: Bool = false, ice: Bool = false) -> SKNode {
+    func loadBasicTile(_ imageNamed : String, tileType: TileType, hot: Bool = false, ice: Bool = false) -> SKNode {
         let t = Tile(imageNamed: imageNamed, type: tileType)
         t.hot = hot
         t.ice = ice
@@ -108,7 +108,7 @@ class LevelState : SKNode {
         return t
     }
     
-    func loadWaterTile(x: Int, y: Int) -> SKNode {
+    func loadWaterTile(_ x: Int, y: Int) -> SKNode {
         let w = WaterDrop()
         w.position = tileField.layout.toPosition(x, row: y)
         w.position.y += 10
@@ -118,7 +118,7 @@ class LevelState : SKNode {
         return Tile()
     }
 
-    func loadStartTile(x: Int, y: Int) -> SKNode {
+    func loadStartTile(_ x: Int, y: Int) -> SKNode {
         var startPosition = tileField.layout.toPosition(x, row: y)
         startPosition.y -= CGFloat(tileField.layout.cellHeight / 2)
         let player = Player(startPos: startPosition)
@@ -128,7 +128,7 @@ class LevelState : SKNode {
         return Tile()
     }
     
-    func loadEndTile(x: Int, y: Int) -> SKNode {
+    func loadEndTile(_ x: Int, y: Int) -> SKNode {
         let exit = SKSpriteNode(imageNamed: "spr_goal")
         exit.name = "exit"
         exit.anchorPoint = CGPoint(x: 0.5, y: 0)

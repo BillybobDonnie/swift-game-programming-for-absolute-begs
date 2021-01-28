@@ -56,7 +56,7 @@ class Player : AnimatedNode {
         xScale = 1
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         if !self.alive {
             return
         }
@@ -65,9 +65,9 @@ class Player : AnimatedNode {
         }
     
         // get the buttons
-        let walkLeftButton = childNodeWithName("//button_walkleft") as! Button
-        let walkRightButton = childNodeWithName("//button_walkright") as! Button
-        let jumpButton = childNodeWithName("//button_jump") as! Button
+        let walkLeftButton = childNode(withName: "//button_walkleft") as! Button
+        let walkRightButton = childNode(withName: "//button_walkright") as! Button
+        let jumpButton = childNode(withName: "//button_jump") as! Button
         
         var walkingSpeed = CGFloat(300)
         if self.walkingOnIce {
@@ -89,7 +89,7 @@ class Player : AnimatedNode {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         position += velocity * CGFloat(delta)
         self.doPhysics(delta)
@@ -107,25 +107,25 @@ class Player : AnimatedNode {
             self.playAnimation("jump")
         }
         
-        let tiles = childNodeWithName("//tileField") as! TileField
+        let tiles = childNode(withName: "//tileField") as! TileField
         if self.box.maxY < tiles.box.minY {
             self.die(true)
         }
     }
     
-    func jump(speed: CGFloat = 680) {
+    func jump(_ speed: CGFloat = 680) {
         self.velocity.y = speed
         playerJumpSound.play()
     }
 
-    func doPhysics(delta: NSTimeInterval) {
+    func doPhysics(_ delta: TimeInterval) {
         self.velocity.y -= CGFloat(1300 * delta)
         if self.alive {
             self.handleCollisions()
         }
     }
     
-    func die(falling: Bool = false) {
+    func die(_ falling: Bool = false) {
         if !alive {
             return
         }
@@ -145,7 +145,7 @@ class Player : AnimatedNode {
         self.walkingOnIce = false
         self.walkingOnHot = false
         
-        let tiles = childNodeWithName("//tileField") as! TileField
+        let tiles = childNode(withName: "//tileField") as! TileField
         let (x_floor, y_floor) = tiles.layout.toGridLocation(self.position)
         
         /* The original C-style for statement is deprecated. You can achieve the same thing
@@ -153,7 +153,7 @@ class Player : AnimatedNode {
         for y in y_floor - 1...y_floor + 2 {
             for x in x_floor - 1...x_floor + 1 {
                 let tileType = tiles.getTileType(x, row: y)
-                if tileType == .Background {
+                if tileType == .background {
                     continue
                 }
 
@@ -165,13 +165,13 @@ class Player : AnimatedNode {
                 }
                 let depth = box.calculateIntersectionDepth(tileBounds)
                 if fabs(depth.x) < fabs(depth.y) {
-                    if tileType == .Wall {
+                    if tileType == .wall {
                         self.position.x += depth.x
                     }
                     continue
                 }
                 let ydifference = self.position.y - self.previousYPosition
-                if box.minY - ydifference >= tileBounds.maxY && tileType != .Background {
+                if box.minY - ydifference >= tileBounds.maxY && tileType != .background {
                     self.onTheGround = true
                     self.velocity.y = 0
                     if let currentTile = tiles.layout.at(x, row: y) as? Tile {
@@ -179,7 +179,7 @@ class Player : AnimatedNode {
                         self.walkingOnHot = self.walkingOnHot || currentTile.hot
                     }
                     self.position.y += depth.y
-                } else if tileType == .Wall {
+                } else if tileType == .wall {
                     self.position.y += depth.y
                 }
             }

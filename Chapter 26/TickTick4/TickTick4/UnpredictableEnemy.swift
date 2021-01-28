@@ -2,7 +2,7 @@ import SpriteKit
 
 class UnpredictableEnemy : PatrollingEnemy {
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         if waitTime <= 0 && randomCGFloat() < 0.01 {
             self.turnAround()

@@ -27,7 +27,7 @@ class GameWorld : GameObjectNode {
         
         /* The original C-style for statement is deprecated. You can achieve the same thing
            by using a range and reversing it, as illustrated below */
-        for i in (0..<nrRows).reverse() {
+        for i in (0..<nrRows).reversed() {
             for j in 0..<nrCols {
                 if i*nrCols + j < nrLevels {
                     let level = SKSpriteNode(imageNamed: "spr_level_unsolved")

@@ -29,7 +29,7 @@ class Slider : SKNode {
         }
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         if !inputHelper.isTouching {
             dragging = false
             draggingIndex = nil

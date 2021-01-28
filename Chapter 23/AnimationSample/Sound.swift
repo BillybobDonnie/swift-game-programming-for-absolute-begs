@@ -1,14 +1,25 @@
 import AVFoundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class Sound {
     
     // properties
-    private var audioPlayer: AVAudioPlayer?
+    fileprivate var audioPlayer: AVAudioPlayer?
     
     // initializers
     init(_ fileName: String) {
-        let soundURL = NSBundle.mainBundle().URLForResource(fileName, withExtension: "mp3")
-        audioPlayer = try! AVAudioPlayer(contentsOfURL: soundURL!)
+        let soundURL = Bundle.main.url(forResource: fileName, withExtension: "mp3")
+        audioPlayer = try! AVAudioPlayer(contentsOf: soundURL!)
     }
     
     // properties

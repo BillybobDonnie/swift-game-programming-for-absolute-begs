@@ -22,8 +22,8 @@ class GameWorld : SKNode {
         self.addChild(background)
         
         let onOffLabel = SKLabelNode(fontNamed: "Helvetica")
-        onOffLabel.horizontalAlignmentMode = .Right
-        onOffLabel.verticalAlignmentMode = .Center
+        onOffLabel.horizontalAlignmentMode = .right
+        onOffLabel.verticalAlignmentMode = .center
         onOffLabel.position = CGPoint(x: -50, y: 50)
         onOffLabel.fontColor = UIColor(red: 0, green: 0, blue: 0.4, alpha: 1)
         onOffLabel.fontSize = 60
@@ -34,8 +34,8 @@ class GameWorld : SKNode {
         self.addChild(onOffButton)
         
         let musicLabel = SKLabelNode(fontNamed: "Helvetica")
-        musicLabel.horizontalAlignmentMode = .Right
-        musicLabel.verticalAlignmentMode = .Center
+        musicLabel.horizontalAlignmentMode = .right
+        musicLabel.verticalAlignmentMode = .center
         musicLabel.position = CGPoint(x: -50, y: -100)
         musicLabel.fontColor = UIColor(red: 0, green: 0, blue: 0.4, alpha: 1)
         musicLabel.fontSize = 60
@@ -52,7 +52,7 @@ class GameWorld : SKNode {
         musicSlider.value = 0.5
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         backgroundMusic.volume = Float(musicSlider.value)
     }

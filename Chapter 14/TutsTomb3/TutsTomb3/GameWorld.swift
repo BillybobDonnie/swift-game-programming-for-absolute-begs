@@ -32,45 +32,45 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         self.addChild(treasures)
         
         // create the actions
-        let dropTreasureAction = SKAction.runBlock({
+        let dropTreasureAction = SKAction.run({
             let r: UInt32 = UInt32(self.counter)/10 + 5
             self.treasures.addChild(Treasure(range: r))
             self.counter += 1
         })
         
-        let sequence = SKAction.sequence([dropTreasureAction, SKAction.waitForDuration(2)])
-        let totalAction = SKAction.repeatActionForever(sequence)
+        let sequence = SKAction.sequence([dropTreasureAction, SKAction.wait(forDuration: 2)])
+        let totalAction = SKAction.repeatForever(sequence)
         
-        self.runAction(totalAction)
+        self.run(totalAction)
         
         // add the surrounding walls
         let floor = SKNode()
         floor.position.y = -400
         var square = CGSize(width: GameScene.world.size.width, height: 200)
-        floor.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        floor.physicsBody?.dynamic = false
+        floor.physicsBody = SKPhysicsBody(rectangleOf: square)
+        floor.physicsBody?.isDynamic = false
         addChild(floor)
         
         let ceiling = SKNode()
         ceiling.position.y = 800
         square = CGSize(width: GameScene.world.size.width, height: 200)
-        ceiling.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        ceiling.physicsBody?.dynamic = false
+        ceiling.physicsBody = SKPhysicsBody(rectangleOf: square)
+        ceiling.physicsBody?.isDynamic = false
         addChild(ceiling)
         
         
         let leftSideWall = SKNode()
         leftSideWall.position.x = -340
         square = CGSize(width: 100, height: GameScene.world.size.height)
-        leftSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        leftSideWall.physicsBody?.dynamic = false
+        leftSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        leftSideWall.physicsBody?.isDynamic = false
         addChild(leftSideWall)
         
         let rightSideWall = SKNode()
         rightSideWall.position.x = 340
         square = CGSize(width: 100, height: size.height)
-        rightSideWall.physicsBody = SKPhysicsBody(rectangleOfSize: square)
-        rightSideWall.physicsBody?.dynamic = false
+        rightSideWall.physicsBody = SKPhysicsBody(rectangleOf: square)
+        rightSideWall.physicsBody?.isDynamic = false
         addChild(rightSideWall)
     }
     
@@ -81,7 +81,7 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
     }
     
     // physics handling
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         let firstBody = contact.bodyA.node as? Treasure
         let secondBody = contact.bodyB.node as? Treasure
         
@@ -103,7 +103,7 @@ class GameWorld : GameObjectNode, SKPhysicsContactDelegate {
         }
     }
     
-    func isOutsideWorld(pos: CGPoint) -> Bool {
+    func isOutsideWorld(_ pos: CGPoint) -> Bool {
         return pos.x < -size.width/2 || pos.x > size.width/2 || pos.y < -size.height/2
     }
     

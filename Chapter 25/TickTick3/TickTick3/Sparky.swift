@@ -28,7 +28,7 @@ class Sparky : AnimatedNode {
         self.velocity = CGPoint.zero
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         if waitTime <= 0 {
             playAnimation("electrocute")
             position += velocity * CGFloat(delta)

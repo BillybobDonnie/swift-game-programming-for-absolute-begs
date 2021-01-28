@@ -7,17 +7,17 @@ class Cloud : SKSpriteNode {
     init() {
         let cloudSpriteName = "spr_cloud_\(arc4random_uniform(5))"
         let texture = SKTexture(imageNamed: cloudSpriteName)
-        super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
+        super.init(texture: texture, color: UIColor.white, size: texture.size())
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         position += velocity * CGFloat(delta)
-        let tileField = childNodeWithName("//tileField") as! TileField
+        let tileField = childNode(withName: "//tileField") as! TileField
         let minx = -tileField.layout.width / 2 - self.size.width / 2
         let maxx = tileField.layout.width / 2 + self.size.width / 2
         if position.x < minx || position.x > maxx {
@@ -25,8 +25,8 @@ class Cloud : SKSpriteNode {
         }
     }
     
-    func setRandomPositionAndVelocity(placeAtScreenEdge: Bool) {
-        let tileField = childNodeWithName("//tileField") as! TileField
+    func setRandomPositionAndVelocity(_ placeAtScreenEdge: Bool) {
+        let tileField = childNode(withName: "//tileField") as! TileField
         self.position.y = randomCGFloat() * tileField.layout.height - tileField.layout.height / 2
         self.velocity.x = (randomCGFloat() * 2 - 1) * 20
         if !placeAtScreenEdge {

@@ -2,7 +2,7 @@ import SpriteKit
 
 class LevelButton : Button {
     
-    private var levelIndex = 0
+    fileprivate var levelIndex = 0
     var textLabel = SKLabelNode(fontNamed: "SmackAttackBB")
     var locked = SKTexture(imageNamed: "spr_level_locked")
     var unsolved = SKTexture(imageNamed: "spr_level_unsolved")
@@ -12,10 +12,10 @@ class LevelButton : Button {
         self.levelIndex = levelIndex
         super.init(imageNamed: "spr_level_locked")
         textLabel.position = CGPoint(x: -60, y: -60)
-        textLabel.fontColor = UIColor.whiteColor()
+        textLabel.fontColor = UIColor.white
         textLabel.fontSize = 48
         textLabel.text = String(levelIndex)
-        textLabel.horizontalAlignmentMode = .Left
+        textLabel.horizontalAlignmentMode = .left
         textLabel.zPosition = Layer.Overlay
         self.addChild(textLabel)
     }
@@ -24,7 +24,7 @@ class LevelButton : Button {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if self.texture == locked {
             return
@@ -35,7 +35,7 @@ class LevelButton : Button {
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         let status = "unsolved" //DefaultsManager.instance.getLevelStatus(self.levelIndex)
         if status == "locked" {
@@ -45,6 +45,6 @@ class LevelButton : Button {
         } else {
             self.texture = solved
         }
-        textLabel.hidden = status == "locked"
+        textLabel.isHidden = status == "locked"
     }
 }

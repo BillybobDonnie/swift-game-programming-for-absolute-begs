@@ -5,7 +5,7 @@ class LevelState : SKNode {
     var quitButton = Button(imageNamed:"spr_button_quit")
     var retryButton = Button(imageNamed:"spr_button_retry")
     var hintButton = Button(imageNamed:"spr_button_hint")
-    let hintVisibleAction = SKAction.sequence([SKAction.unhide(), SKAction.waitForDuration(1), SKAction.hide()])
+    let hintVisibleAction = SKAction.sequence([SKAction.unhide(), SKAction.wait(forDuration: 1), SKAction.hide()])
     var helpFrame = SKSpriteNode(imageNamed:"spr_frame_help")
     var hint = SKSpriteNode()
     var levelFinishedOverlay = SKSpriteNode(imageNamed: "spr_level_finished")
@@ -34,7 +34,7 @@ class LevelState : SKNode {
         retryButton.zPosition = Layer.Overlay
         retryButton.position = GameScreen.instance.topRight - retryButton.center - CGPoint(x: 20 + quitButton.size.width, y: 10)
         self.addChild(retryButton)
-        retryButton.hidden = true
+        retryButton.isHidden = true
         
         hintButton.zPosition = Layer.Overlay
         hintButton.position = retryButton.position
@@ -44,9 +44,9 @@ class LevelState : SKNode {
         let _ = fileReader.nextLine() // for now, we do not use the title
         let help = fileReader.nextLine()
         let nrPairs = Int(fileReader.nextLine())!
-        let sizeArr = fileReader.nextLine().componentsSeparatedByString(" ")
+        let sizeArr = fileReader.nextLine().components(separatedBy: " ")
         let width = Int(sizeArr[0])!, height = Int(sizeArr[1])!
-        let hintArr = fileReader.nextLine().componentsSeparatedByString(" ")
+        let hintArr = fileReader.nextLine().components(separatedBy: " ")
         
         let tileDimension = 75
         let tileField = TileField(rows: height, columns: width, cellWidth: tileDimension, cellHeight: tileDimension)
@@ -70,7 +70,7 @@ class LevelState : SKNode {
                 switch c {
                 case ".":
                     let tileSprite = "spr_field_\((i + j) % 2)"
-                    let tile = Tile(imageNamed: tileSprite, type: .Normal)
+                    let tile = Tile(imageNamed: tileSprite, type: .normal)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                 case " ":
@@ -79,7 +79,7 @@ class LevelState : SKNode {
                     tileField.layout.add(tile)
                 case "r", "b", "g", "o", "p", "y", "m", "x", "s", "@", "R", "B", "G", "O", "P", "Y", "M", "X":
                     let tileSprite = "spr_field_\((i + j) % 2)"
-                    let tile = Tile(imageNamed: tileSprite, type: .Normal)
+                    let tile = Tile(imageNamed: tileSprite, type: .normal)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                     let p = Animal(type: String(c))
@@ -88,7 +88,7 @@ class LevelState : SKNode {
                     p.zPosition = Layer.Scene1
                     animals.addChild(p)
                 default:
-                    let tile = Tile(imageNamed: "spr_wall", type: .Wall)
+                    let tile = Tile(imageNamed: "spr_wall", type: .wall)
                     tile.zPosition = Layer.Scene
                     tileField.layout.add(tile)
                 }
@@ -107,7 +107,7 @@ class LevelState : SKNode {
         hint = SKSpriteNode(imageNamed: "spr_arrow_hint_\(hintArr[2])")
         hint.zPosition = Layer.Scene2
         hint.position = tileField.layout.toPosition(hintx, row: hinty)
-        hint.hidden = true
+        hint.isHidden = true
         self.addChild(hint)
 
         
@@ -120,8 +120,8 @@ class LevelState : SKNode {
         textLabel.fontColor = UIColor(red: 0, green: 0, blue: 0.4, alpha: 1)
         textLabel.fontSize = 24
         textLabel.text = help
-        textLabel.horizontalAlignmentMode = .Center
-        textLabel.verticalAlignmentMode = .Center
+        textLabel.horizontalAlignmentMode = .center
+        textLabel.verticalAlignmentMode = .center
         textLabel.zPosition = 1
         helpFrame.addChild(textLabel)
         
@@ -137,7 +137,7 @@ class LevelState : SKNode {
         self.addChild(pairList)
         
         // winning overlay
-        levelFinishedOverlay.hidden = true
+        levelFinishedOverlay.isHidden = true
         levelFinishedOverlay.zPosition = Layer.Overlay2
         self.addChild(levelFinishedOverlay)        
     }
@@ -146,8 +146,8 @@ class LevelState : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
-        if !levelFinishedOverlay.hidden {
+    override func handleInput(_ inputHelper: InputHelper) {
+        if !levelFinishedOverlay.isHidden {
             if !inputHelper.containsTap(levelFinishedOverlay.box) {
                 return
             }
@@ -168,32 +168,32 @@ class LevelState : SKNode {
             GameStateManager.instance.switchTo("level")
         }
         if hintButton.tapped {
-            hint.runAction(hintVisibleAction)
+            hint.run(hintVisibleAction)
         } else if retryButton.tapped {
             reset()
         }
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
-        let pairList = childNodeWithName("//pairList") as! PairList
-        if levelFinishedOverlay.hidden && pairList.completed {
-            levelFinishedOverlay.hidden = false
+        let pairList = childNode(withName: "//pairList") as! PairList
+        if levelFinishedOverlay.isHidden && pairList.completed {
+            levelFinishedOverlay.isHidden = false
             wonSound.play()
         }
         if !firstMoveMade {
-            self.hintButton.hidden = !DefaultsManager.instance.hints
-            self.retryButton.hidden = DefaultsManager.instance.hints
+            self.hintButton.isHidden = !DefaultsManager.instance.hints
+            self.retryButton.isHidden = DefaultsManager.instance.hints
         }
     }
     
     override func reset() {
         super.reset()
         firstMoveMade = false
-        helpFrame.runAction(SKAction.sequence([SKAction.unhide(),SKAction.waitForDuration(5), SKAction.hide()]))        
+        helpFrame.run(SKAction.sequence([SKAction.unhide(),SKAction.wait(forDuration: 5), SKAction.hide()]))        
     }
     
-    func findAnimalAtPosition(col: Int, row: Int) -> Animal? {
+    func findAnimalAtPosition(_ col: Int, row: Int) -> Animal? {
         for obj in animals.children {
             let animal = obj as! Animal
             let (currcol, currrow) = animal.currentBlock
@@ -205,8 +205,8 @@ class LevelState : SKNode {
     }
     
     func applyFirstMoveMade() {
-        self.hintButton.hidden = true
-        self.retryButton.hidden = false
+        self.hintButton.isHidden = true
+        self.retryButton.isHidden = false
         firstMoveMade = true
     }
 }

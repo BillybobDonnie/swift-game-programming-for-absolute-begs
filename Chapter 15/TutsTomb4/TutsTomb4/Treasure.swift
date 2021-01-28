@@ -1,4 +1,24 @@
 import SpriteKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 struct TreasureType {
     static let Rock : UInt32 = 99
@@ -30,7 +50,7 @@ class Treasure: GameObjectNode {
             self.type = TreasureType.Magic
         } else {
             sprite = SKSpriteNode(imageNamed: "spr_treasure_\(self.type)")
-            self.runAction(SKAction.waitForDuration(20), completion: {
+            self.run(SKAction.wait(forDuration: 20), completion: {
                 let rock = Treasure(type: TreasureType.Rock)
                 rock.position = self.position
                 self.parent?.addChild(rock)
@@ -48,7 +68,7 @@ class Treasure: GameObjectNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleInput(inputHelper: InputHelper) {
+    override func handleInput(_ inputHelper: InputHelper) {
         super.handleInput(inputHelper)
         if inputHelper.containsTap(self.box) {
             touchid = inputHelper.getIDInRect(self.box)

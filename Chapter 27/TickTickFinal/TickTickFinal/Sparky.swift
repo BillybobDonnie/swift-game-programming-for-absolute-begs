@@ -29,7 +29,7 @@ class Sparky : AnimatedNode {
         self.velocity = CGPoint.zero
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         if waitTime <= 0 {
             playAnimation("electrocute")
             position += velocity * CGFloat(delta)
@@ -51,7 +51,7 @@ class Sparky : AnimatedNode {
     }
     
     func checkPlayerCollision() {
-        let player = childNodeWithName("//player") as! Player
+        let player = childNode(withName: "//player") as! Player
         if player.box.intersects(self.box) && self.waitTime <= 0 {
             player.die()
         }

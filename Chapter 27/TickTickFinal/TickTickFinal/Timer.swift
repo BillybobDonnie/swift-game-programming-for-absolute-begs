@@ -2,13 +2,13 @@ import SpriteKit
 
 class Timer : SKNode {
     
-    var timeLeft: NSTimeInterval = 0
-    var totalTime: NSTimeInterval = 60
+    var timeLeft: TimeInterval = 0
+    var totalTime: TimeInterval = 60
     var textLabel = SKLabelNode(fontNamed: "SmackAttackBB")
     var multiplier = 1.0
     var running = true
     
-    init(totalTime: NSTimeInterval) {
+    init(totalTime: TimeInterval) {
         self.totalTime = totalTime
         self.timeLeft = totalTime
         super.init()
@@ -17,10 +17,10 @@ class Timer : SKNode {
         timerBackground.zPosition = Layer.Overlay
         self.addChild(timerBackground)
         
-        textLabel.fontColor = UIColor.yellowColor()
+        textLabel.fontColor = UIColor.yellow
         textLabel.fontSize = 24
-        textLabel.horizontalAlignmentMode = .Center
-        textLabel.verticalAlignmentMode = .Center
+        textLabel.horizontalAlignmentMode = .center
+        textLabel.verticalAlignmentMode = .center
         textLabel.zPosition = Layer.Overlay1
         self.addChild(textLabel)
     }
@@ -30,7 +30,7 @@ class Timer : SKNode {
     }
 
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         if self.timeLeft < 0 || !self.running {
             return
@@ -45,9 +45,9 @@ class Timer : SKNode {
         if seconds < 10 {
             textLabel.text = "\(minutes):0\(seconds)"
         }
-        textLabel.fontColor = UIColor.yellowColor()
+        textLabel.fontColor = UIColor.yellow
         if timeLeft <= 10 && seconds % 2 == 0 {
-            textLabel.fontColor = UIColor.redColor()
+            textLabel.fontColor = UIColor.red
         }
     }
     

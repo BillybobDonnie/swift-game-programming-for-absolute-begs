@@ -17,7 +17,7 @@ class PatrollingEnemy : AnimatedNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         position += velocity * CGFloat(delta)
         if waitTime > 0 {
@@ -26,14 +26,14 @@ class PatrollingEnemy : AnimatedNode {
                 self.turnAround()
             }
         } else {
-            let tileField = childNodeWithName("//tileField") as! TileField
+            let tileField = childNode(withName: "//tileField") as! TileField
             var (col, row) = tileField.layout.toGridLocation(self.position)
             if xScale < 0 {
                 col -= 1
             } else {
                 col += 1
             }
-            if tileField.getTileType(col, row: row - 1) == .Background || tileField.getTileType(col, row: row) == .Wall {
+            if tileField.getTileType(col, row: row - 1) == .background || tileField.getTileType(col, row: row) == .wall {
                 waitTime = 0.5
                 velocity = CGPoint.zero
             }
@@ -42,7 +42,7 @@ class PatrollingEnemy : AnimatedNode {
     }
     
     func checkPlayerCollision() {
-        let player = childNodeWithName("//player") as! Player
+        let player = childNode(withName: "//player") as! Player
         if player.box.intersects(self.box) {
             player.die()
         }

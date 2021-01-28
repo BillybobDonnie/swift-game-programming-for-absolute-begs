@@ -24,23 +24,23 @@ class Rocket : AnimatedNode {
     override func reset() {
         self.position = startPosition
         self.velocity = CGPoint.zero
-        self.hidden = true
+        self.isHidden = true
         self.spawnTime = randomCGFloat() * 5
     }
     
-    override func updateDelta(delta: NSTimeInterval) {
+    override func updateDelta(_ delta: TimeInterval) {
         super.updateDelta(delta)
         position += velocity * CGFloat(delta)
         if spawnTime > 0 {
             spawnTime -= CGFloat(delta)
             return
         }
-        hidden = false
+        isHidden = false
         self.velocity.x = 600
         if self.xScale < 0 {
             self.velocity.x *= -1
         }
-        let tileField = childNodeWithName("//tileField") as! TileField
+        let tileField = childNode(withName: "//tileField") as! TileField
         if !tileField.box.intersects(self.box) {
             self.reset()
         }

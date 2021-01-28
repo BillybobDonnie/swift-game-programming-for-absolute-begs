@@ -9,15 +9,15 @@ class Animal : SKSpriteNode {
     var velocity = CGPoint.zero
     
     init(type: String) {
-        boxed = type.uppercaseString == type
+        boxed = type.uppercased() == type
         var spriteName = "spr_animal_\(type)"
         if boxed && type != "@" {
-            spriteName = "spr_animal_boxed_\(type.lowercaseString)"
+            spriteName = "spr_animal_boxed_\(type.lowercased())"
         }
         let texture = SKTexture(imageNamed: spriteName)
-        super.init(texture: texture, color: UIColor.whiteColor(), size: texture.size())
+        super.init(texture: texture, color: UIColor.white, size: texture.size())
         self.type = type
-        initialEmptyBox = type.lowercaseString == "@"
+        initialEmptyBox = type.lowercased() == "@"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,17 +27,17 @@ class Animal : SKSpriteNode {
     override func reset() {
         position = initialPosition
         velocity = CGPoint.zero
-        hidden = false
+        isHidden = false
         if initialEmptyBox {
             changeSpriteTo("@")
         }
     }
     
-    func changeSpriteTo(type: String) {
-        boxed = type.uppercaseString == type
+    func changeSpriteTo(_ type: String) {
+        boxed = type.uppercased() == type
         var spriteName = "spr_animal_\(type)"
         if boxed && type != "@" {
-            spriteName = "spr_animal_boxed_\(type.lowercaseString)"
+            spriteName = "spr_animal_boxed_\(type.lowercased())"
         }
         texture = SKTexture(imageNamed: spriteName)
         self.type = type
